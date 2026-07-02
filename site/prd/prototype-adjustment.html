@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第 3 类差异原型调整说明</title>
+  <style>
+    :root { color-scheme: light; --text:#172033; --muted:#64748b; --line:#d8dee9; --bg:#f6f8fb; --card:#fff; --brand:#2563eb; --brand-soft:#eaf2ff; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.72 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; user-select: text; }
+    .layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 100vh; }
+    aside { position: sticky; top: 0; height: 100vh; overflow: auto; border-right: 1px solid var(--line); background: rgba(255,255,255,.92); padding: 20px 16px; }
+    main { min-width: 0; padding: 28px 36px 72px; }
+    .doc { max-width: 1120px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 34px 44px; box-shadow: 0 12px 36px rgba(15,23,42,.06); }
+    .brand { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .tabs { display: grid; gap: 8px; margin-bottom: 20px; }
+    .doc-tab { color: var(--text); text-decoration: none; padding: 9px 10px; border-radius: 8px; border: 1px solid transparent; line-height: 1.35; }
+    .doc-tab:hover { background: #f1f5f9; }
+    .doc-tab.active { color: var(--brand); background: var(--brand-soft); border-color: #bfd7ff; font-weight: 650; }
+    .toc-title { font-weight: 700; margin: 14px 0 8px; }
+    .toc { display: grid; gap: 2px; }
+    .toc-item { color: #475569; text-decoration: none; border-radius: 6px; padding: 5px 8px; line-height: 1.4; }
+    .toc-item:hover { background: #f1f5f9; color: var(--brand); }
+    .toc-l1 { font-weight: 700; }
+    .toc-l2 { padding-left: 18px; }
+    .toc-l3 { padding-left: 30px; font-size: 13px; }
+    h1, h2, h3, h4 { line-height: 1.35; color: #0f172a; margin: 1.4em 0 .65em; scroll-margin-top: 20px; }
+    h1 { font-size: 30px; margin-top: 0; padding-bottom: 14px; border-bottom: 2px solid #e2e8f0; }
+    h2 { font-size: 23px; padding-top: 8px; }
+    h3 { font-size: 18px; }
+    h4 { font-size: 16px; }
+    p, ul, ol, table, blockquote { margin: .75em 0 1em; }
+    a { color: var(--brand); }
+    code { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 5px; padding: 1px 5px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow: auto; }
+    pre code { background: transparent; border: 0; color: inherit; padding: 0; }
+    table { width: 100%; border-collapse: collapse; display: table; table-layout: auto; overflow: auto; }
+    th, td { border: 1px solid #dbe3ef; padding: 9px 10px; vertical-align: top; min-width: 96px; }
+    th { background: #f8fafc; font-weight: 700; }
+    tr:hover td { background: #fbfdff; }
+    blockquote { border-left: 4px solid #cbd5e1; padding-left: 14px; color: #475569; }
+    .selectable-block { user-select: text; }
+    .selectable-block:hover { outline: 2px solid rgba(37,99,235,.16); outline-offset: 4px; border-radius: 4px; }
+    ::selection { background: #bfdbfe; color: #0f172a; }
+    .hint { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; border-radius: 10px; padding: 10px 12px; font-size: 13px; margin-bottom: 18px; }
+    @media (max-width: 960px) { .layout { display: block; } aside { position: static; height: auto; } main { padding: 16px; } .doc { padding: 24px 18px; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">PRD 可选中评审版</div>
+      <nav class="tabs"><a class="doc-tab " href="index.html">建图与导航工具 V1.0.0 PRD</a><a class="doc-tab " href="new-support.html">项目需新增支持子需求清单</a><a class="doc-tab active" href="prototype-adjustment.html">第 3 类差异原型调整说明</a></nav>
+      <div class="toc-title">目录</div>
+      <nav class="toc"><a class="toc-item toc-l1" href="#h-0-建图与导航工具-v1.0.0-第-3-类差异原型调整说明">建图与导航工具 V1.0.0 第 3 类差异原型调整说明</a><a class="toc-item toc-l2" href="#h-1-1.-使用机器人当前位置设点">1. 使用机器人当前位置设点</a><a class="toc-item toc-l2" href="#h-2-2.-地图选点设点">2. 地图选点设点</a><a class="toc-item toc-l2" href="#h-3-3.-点位导航验证">3. 点位导航验证</a></nav>
+    </aside>
+    <main>
+      <article class="doc">
+        <div class="hint">这是 Markdown 渲染后的网页版本。可直接拖选标题、段落、表格内容进行评论或复制。</div>
+        <h1 id="h-0-建图与导航工具-v1.0.0-第-3-类差异原型调整说明" class="selectable-block">建图与导航工具 V1.0.0 第 3 类差异原型调整说明</h1>
+<p class="selectable-block">来源：基于“两者都有，但口径 / 实现不一样”的已确认决策整理。<br>
+用途：给原型修改使用。<br>
+范围：只覆盖当前位置设点、地图选点设点、点位导航验证三类交互。</p>
+<h2 id="h-1-1.-使用机器人当前位置设点" class="selectable-block">1. 使用机器人当前位置设点</h2>
+<p class="selectable-block">PRD 口径：当前位置设点默认使用机器人当前位置和当前朝向。</p>
+<p class="selectable-block">原型调整：</p>
+<ul class="selectable-block">
+<li>点位配置页保留“使用机器人当前位置设点”入口。</li>
+<li>用户点击后立即新增一个点位。</li>
+<li>新点位默认名称为 <code>点位 N</code>，编号为 <code>P00N</code>。</li>
+<li>点位坐标读取机器人当前位置。</li>
+<li>点位朝向读取机器人当前朝向。</li>
+<li>新增后自动选中该点位，并在右侧点位卡片中展开详情。</li>
+<li>地图上的点位标记需要显示朝向箭头。</li>
+</ul>
+<p class="selectable-block">不需要：</p>
+<ul class="selectable-block">
+<li>不弹出单独确认弹窗。</li>
+<li>不要求用户二次选择朝向。</li>
+<li>不把当前位置设点做成长期高亮状态。</li>
+</ul>
+<h2 id="h-2-2.-地图选点设点" class="selectable-block">2. 地图选点设点</h2>
+<p class="selectable-block">PRD 口径：点击生成点位，长按拖拽设置朝向。</p>
+<p class="selectable-block">原型调整：</p>
+<ul class="selectable-block">
+<li>点位配置页提供“地图选点”模式。</li>
+<li>开启后，鼠标进入地图区域时显示选点光标。</li>
+<li>点击可通行区域后直接生成点位。</li>
+<li>点击没扫到、障碍物或地图外区域时不生成点位，并提示“只能放在可通行区域”。</li>
+<li>点位生成后自动选中，并展示默认名称和编号。</li>
+<li>用户长按点位标记并拖拽，地图上出现方向线和朝向预览。</li>
+<li>松开鼠标后写入该点位朝向。</li>
+<li>已保存或已创建的点位也支持长按拖拽调整朝向。</li>
+</ul>
+<p class="selectable-block">不需要：</p>
+<ul class="selectable-block">
+<li>不把点位方向放到独立弹窗里设置。</li>
+<li>不要求用户输入角度数值作为主要交互。</li>
+</ul>
+<h2 id="h-3-3.-点位导航验证" class="selectable-block">3. 点位导航验证</h2>
+<p class="selectable-block">PRD 口径：App 支持建图 + 导航；本期导航只做单点验证。</p>
+<p class="selectable-block">原型调整：</p>
+<ul class="selectable-block">
+<li>点位卡片选中后，展示“导航到点位”按钮。</li>
+<li>点位没有坐标、没有朝向、在障碍物 / 没扫到 / 地图外时，按钮置灰并展示原因。</li>
+<li>点击“导航到点位”后进入验证中状态。</li>
+<li>验证中显示状态条：目标点位名称、前往中、停止按钮。</li>
+<li>验证中禁止编辑点位、拖动点位、调整朝向。</li>
+<li>用户点击停止后，提示“已停止前往点位”。</li>
+<li>遇到障碍物、手柄接管、定位丢失、急停、连接断开、无法规划路径时，停止本次验证并提示原因。</li>
+<li>到达点位且朝向对齐时，提示“已到达点位”。</li>
+<li>到达附近但朝向未对齐时，提示“已到达附近，朝向未对齐”。</li>
+</ul>
+<p class="selectable-block">不需要：</p>
+<ul class="selectable-block">
+<li>不做多点路线。</li>
+<li>不做导览任务。</li>
+<li>不做导航策略选择。</li>
+<li>不做自动绕行后继续验证。</li>
+</ul>
+
+      </article>
+    </main>
+  </div>
+</body>
+</html>
