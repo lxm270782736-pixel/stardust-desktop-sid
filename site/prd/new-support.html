@@ -53,7 +53,7 @@
       <div class="brand">PRD 可选中评审版</div>
       <nav class="tabs"><a class="doc-tab " href="index.html">建图与导航工具 V1.0.0 PRD</a><a class="doc-tab active" href="new-support.html">项目需新增支持子需求清单</a><a class="doc-tab " href="prototype-adjustment.html">第 3 类差异原型调整说明</a></nav>
       <div class="toc-title">目录</div>
-      <nav class="toc"><a class="toc-item toc-l1" href="#h-0-建图与导航工具-v1.0.0-项目需补充子需求清单">建图与导航工具 V1.0.0 项目需补充子需求清单</a><a class="toc-item toc-l2" href="#h-1-1.-why">1. Why</a><a class="toc-item toc-l2" href="#h-2-2.-what-项目需补充功能清单">2. What：项目需补充功能清单</a><a class="toc-item toc-l2" href="#h-3-3.-how-p0-子需求说明">3. How：P0 子需求说明</a><a class="toc-item toc-l3" href="#h-4-s01-边建图边显示">S01 边建图边显示</a><a class="toc-item toc-l3" href="#h-5-s02-网页遥控">S02 网页遥控</a><a class="toc-item toc-l3" href="#h-6-s03-下载地图">S03 下载地图</a><a class="toc-item toc-l3" href="#h-7-s04-业务-app-选图返回">S04 业务 App 选图返回</a><a class="toc-item toc-l2" href="#h-8-4.-p1-p2-子需求处理口径">4. P1 / P2 子需求处理口径</a></nav>
+      <nav class="toc"><a class="toc-item toc-l1" href="#h-0-建图与导航工具-v1.0.0-项目需补充子需求清单">建图与导航工具 V1.0.0 项目需补充子需求清单</a><a class="toc-item toc-l2" href="#h-1-1.-why">1. Why</a><a class="toc-item toc-l2" href="#h-2-2.-what-需补充功能清单">2. What：需补充功能清单</a><a class="toc-item toc-l2" href="#h-3-3.-how-p0-子需求详情">3. How：P0 子需求详情</a><a class="toc-item toc-l3" href="#h-4-s01-边建图边显示">S01 边建图边显示</a><a class="toc-item toc-l3" href="#h-5-s02-网页遥控">S02 网页遥控</a><a class="toc-item toc-l3" href="#h-6-s03-下载地图">S03 下载地图</a><a class="toc-item toc-l3" href="#h-7-s04-业务-app-选图返回">S04 业务 App 选图返回</a></nav>
     </aside>
     <main>
       <article class="doc">
@@ -61,14 +61,8 @@
         <h1 id="h-0-建图与导航工具-v1.0.0-项目需补充子需求清单" class="selectable-block">建图与导航工具 V1.0.0 项目需补充子需求清单</h1>
 <p class="selectable-block">原 PRD：<a href="https://g97aoekjur.feishu.cn/wiki/POGJwaMzSiIG2ukQMywc7oHXnfc">建图与导航工具 V1.0.0</a></p>
 <h2 id="h-1-1.-why" class="selectable-block">1. Why</h2>
-<p class="selectable-block">72 版本导览项目已有地图查看、点位和导航相关基础能力，但还缺少建图工具主流程必须闭环的能力。本文只整理“PRD 已确认、项目当前需要补充”的子需求，方便研发评估工期。</p>
-<p class="selectable-block">优先级口径：</p>
-<ul class="selectable-block">
-<li>需补充P0：当前项目缺少，不补则建图工具主流程无法成立。</li>
-<li>需补充P1：当前项目缺少，不影响最小建图闭环，但影响现场效率或业务衔接。</li>
-<li>需补充P2：当前项目缺少，属于体验优化或低频补充。</li>
-</ul>
-<h2 id="h-2-2.-what-项目需补充功能清单" class="selectable-block">2. What：项目需补充功能清单</h2>
+<p class="selectable-block">本文只整理“PRD 已确认、项目当前需要补充”的功能点，用于研发评估补齐工作量。</p>
+<h2 id="h-2-2.-what-需补充功能清单" class="selectable-block">2. What：需补充功能清单</h2>
 <table class="selectable-block">
 <thead>
 <tr>
@@ -114,14 +108,6 @@
 <td>需补充P0</td>
 </tr>
 <tr>
-<td>S05</td>
-<td>建图前选择栅格精度</td>
-<td>F02-06</td>
-<td>用户开始建图前确认地图精度。</td>
-<td>影响地图精度一致性，但不阻断最小建图闭环。</td>
-<td>需补充P2</td>
-</tr>
-<tr>
 <td>S06</td>
 <td>保存并编辑</td>
 <td>F05-02</td>
@@ -137,201 +123,87 @@
 <td>避免现场建图成果丢失。</td>
 <td>需补充P1</td>
 </tr>
-<tr>
-<td>S08</td>
-<td>独立地图查看页</td>
-<td>F06</td>
-<td>用户只读查看已保存地图。</td>
-<td>让查看、编辑、下载入口更清晰。</td>
-<td>需补充P1</td>
-</tr>
-<tr>
-<td>S09</td>
-<td>点位配置差异补齐</td>
-<td>F08-05 / F08-07 / F08-09 / F08-11</td>
-<td>用户在已有点位能力上补齐本期建图工具需要的交互和校验。</td>
-<td>当前项目已有多数点位能力，只需补齐本期差异。</td>
-<td>需补充P1</td>
-</tr>
-<tr>
-<td>S10</td>
-<td>点位导航验证</td>
-<td>F11</td>
-<td>用户选择一个点位，让机器人前往验证。</td>
-<td>用于交付前检查点位是否可达。</td>
-<td>需补充P1</td>
-</tr>
 </tbody>
 </table>
-<h2 id="h-3-3.-how-p0-子需求说明" class="selectable-block">3. How：P0 子需求说明</h2>
+<h2 id="h-3-3.-how-p0-子需求详情" class="selectable-block">3. How：P0 子需求详情</h2>
 <h3 id="h-4-s01-边建图边显示" class="selectable-block">S01 边建图边显示</h3>
-<p class="selectable-block">用户任务：用户遥控机器人移动时，能看到地图随扫描逐步生成。</p>
+<p class="selectable-block">对应 PRD：F04-02。</p>
 <p class="selectable-block">页面：建图工作台。</p>
-<p class="selectable-block">显示内容：</p>
-<ul class="selectable-block">
-<li>P0：地图底图按建图数据逐步显示没扫到、可通行、障碍物。</li>
-<li>P1：机器人位置和朝向、轨迹、扫描点。</li>
-<li>P1：缩放、平移、适配视图、栅格显示开关。</li>
-</ul>
 <p class="selectable-block">规则：</p>
 <ul class="selectable-block">
-<li>建图开始后，地图随建图数据更新。</li>
-<li>没有新数据时，地图保持当前结果，不自动伪增长。</li>
-<li>扫描点、轨迹和栅格只用于辅助判断，不作为保存后的地图分类。</li>
-</ul>
-<p class="selectable-block">异常处理：</p>
-<ul class="selectable-block">
-<li>扫描数据中断：提示“扫描数据暂未更新”，保留当前地图。</li>
-<li>机器人定位异常：提示“机器人位置暂不可用”，地图继续保留。</li>
-<li>建图服务异常：停止地图更新，提示用户重试或返回地图列表。</li>
-</ul>
-<p class="selectable-block">验收口径：</p>
-<ul class="selectable-block">
-<li>用户移动机器人后，地图底图能逐步变化。</li>
-<li>无数据时不会生成假地图。</li>
-<li>辅助图层缺失不阻断 P0，但需要按 P1 进入后续补充。</li>
+<li>画布显示没扫到、可通行、障碍物三类底图。</li>
+<li>用户在建图工作台移动机器人时，观察地图生成过程。</li>
 </ul>
 <h3 id="h-5-s02-网页遥控" class="selectable-block">S02 网页遥控</h3>
-<p class="selectable-block">用户任务：用户在手柄不可用或需要备用时，用网页控制台移动机器人完成建图。</p>
-<p class="selectable-block">页面：建图工作台；点位配置页如需使用当前位置设点，可复用同一套控制规则。</p>
-<p class="selectable-block">控制方式：</p>
+<p class="selectable-block">对应 PRD：F04-06 / F04-07 / F04-08。</p>
+<p class="selectable-block">页面：建图工作台。</p>
+<p class="selectable-block">控制规则：</p>
 <ul class="selectable-block">
-<li>按钮控制：前进、后退、左移、右移、左转、右转、停止。</li>
-<li>键盘控制：<code>W / ↑</code> 前进，<code>S / ↓</code> 后退，<code>A</code> 左移，<code>D</code> 右移，<code>Q / ←</code> 左转，<code>E / →</code> 右转，<code>Space / Esc</code> 停止。</li>
-<li>转向规则：单击转向按钮转 45°；长按连续转动，每秒 15°。</li>
-</ul>
-<p class="selectable-block">控制权规则：</p>
-<ul class="selectable-block">
-<li>手柄有控制权时，网页按钮和键盘不生效。</li>
-<li>网页控制中收到手柄控制信号，网页控制立即停止。</li>
-<li>页面切换、窗口失焦、连接断开或控制台收起时，网页控制停止。</li>
-</ul>
-<p class="selectable-block">安全规则：</p>
-<ul class="selectable-block">
-<li>用户松开按键或按钮后停止连续移动。</li>
-<li>距离障碍物过近时停止移动并提示。</li>
-<li>急停、底盘异常或连接异常时禁止发控制指令。</li>
-</ul>
-<p class="selectable-block">验收口径：</p>
-<ul class="selectable-block">
-<li>按钮和键盘都能触发移动。</li>
-<li>手柄控制时网页控制不可抢占。</li>
-<li>异常或离开页面时不会持续发移动指令。</li>
+<li>主控制：实体手柄。</li>
+<li>备用控制：网页控制台，支持按钮点击和键盘快捷键。</li>
+<li>按钮平移：按住移动，松开停止。</li>
+<li>按钮转向：单击转 45°；长按按 15°/s 连续转，松开停止。</li>
+<li>键盘快捷键：<code>W / ↑</code> 前进；<code>S / ↓</code> 后退；<code>A</code> 左移；<code>D</code> 右移；<code>Q / ←</code> 左转；<code>E / →</code> 右转；<code>Space / Esc</code> 停止。</li>
+<li>键盘生效条件：控制台展开、页面获得焦点，且用户未输入地图名称、备注、点位字段或弹窗内容。</li>
+<li>键盘平移：按下移动，松开停止。</li>
+<li>键盘转向：点按转 45°；长按按 15°/s 连续转，松开停止。</li>
+<li>控制权：手柄优先；手柄有控制权时，网页控制台按钮和键盘快捷键都不生效。</li>
+<li>安全停止：超时、失焦、切页、控制台收起、连接断开、按下停止键或距离障碍物过近时停止网页控制。</li>
 </ul>
 <h3 id="h-6-s03-下载地图" class="selectable-block">S03 下载地图</h3>
-<p class="selectable-block">用户任务：二开用户下载地图包，用于开发、调试或导入自有系统。</p>
+<p class="selectable-block">对应 PRD：F09。</p>
 <p class="selectable-block">入口：</p>
 <ul class="selectable-block">
 <li>地图列表。</li>
+<li>地图详情弹窗。</li>
 <li>地图查看页。</li>
-<li>业务 App 选图流程中可查看的地图详情入口。</li>
 </ul>
-<p class="selectable-block">下载内容：</p>
+<p class="selectable-block">下载包组成：</p>
 <ul class="selectable-block">
-<li>地图文件。</li>
-<li>点位列表。</li>
-<li>必要元数据：地图 ID、地图名称、保存时间、地图精度、文件状态。</li>
+<li>地图文件：当前地图底图文件。</li>
+<li>点位列表：点位 ID、编号、名称、地图坐标、朝向、所属地图 ID；没有点位时为空列表。</li>
+<li>元数据：地图 ID、名称、分辨率、坐标信息、生成时间、点位更新时间。</li>
 </ul>
-<p class="selectable-block">规则：</p>
+<p class="selectable-block">失败处理：</p>
 <ul class="selectable-block">
-<li>只有文件状态正常的地图可下载。</li>
-<li>无法读取的地图不可下载。</li>
-<li>下载动作不改变地图内容。</li>
-</ul>
-<p class="selectable-block">异常处理：</p>
-<ul class="selectable-block">
-<li>下载失败：提示失败原因，允许重试。</li>
-<li>文件不存在或无法读取：提示地图文件异常，建议删除或重新建图。</li>
-</ul>
-<p class="selectable-block">验收口径：</p>
-<ul class="selectable-block">
-<li>用户能从地图入口下载地图包。</li>
-<li>下载包能区分地图文件、点位列表和必要元数据。</li>
-<li>下载失败时页面不跳转，用户可重试。</li>
+<li>下载失败时停留当前页面，提示失败原因。</li>
+<li>用户可重新触发下载。</li>
 </ul>
 <h3 id="h-7-s04-业务-app-选图返回" class="selectable-block">S04 业务 App 选图返回</h3>
-<p class="selectable-block">用户任务：自动回充 / 导览从建图工具选择地图，并拿到可继续使用的地图结果。</p>
-<p class="selectable-block">入口：</p>
-<ul class="selectable-block">
-<li>自动回充 App 调起建图工具选图。</li>
-<li>导览 App 调起建图工具选图。</li>
-<li>已有素材库或业务入口需要选择地图时，进入同一选图流程。</li>
-</ul>
+<p class="selectable-block">对应 PRD：F10。</p>
 <p class="selectable-block">流程：</p>
-<ol class="selectable-block">
-<li>来源 App 打开地图选择页。</li>
-<li>有地图：用户选择一张可用地图并返回来源 App。</li>
-<li>无地图：用户新建地图；保存成功后回到地图选择页。</li>
-<li>用户取消：返回未选择结果。</li>
-</ol>
-<p class="selectable-block">返回内容：</p>
 <ul class="selectable-block">
-<li>地图 ID。</li>
-<li>地图名称。</li>
-<li>文件状态。</li>
-<li>最近保存时间。</li>
-<li>点位数量。</li>
-<li>点位更新时间。</li>
+<li>用户从自动回充 App 或导览 App 进入建图 App 选择地图。</li>
+<li>没有可用地图时先新建，保存后回到地图选择页，再选择地图返回来源 App。</li>
 </ul>
-<p class="selectable-block">规则：</p>
-<ul class="selectable-block">
-<li>无法读取的地图不可选择。</li>
-<li>来源 App 只接收选择结果，不在建图工具内配置回充、导览任务、路线或导航策略。</li>
-<li>新建地图来自业务 App 调用时，保存后保留来源上下文。</li>
-</ul>
-<p class="selectable-block">异常处理：</p>
-<ul class="selectable-block">
-<li>来源上下文丢失：提示用户回到来源 App 重新选择。</li>
-<li>选中地图变为不可读：阻止返回，并提示选择其他地图或重新建图。</li>
-</ul>
-<p class="selectable-block">验收口径：</p>
-<ul class="selectable-block">
-<li>自动回充和导览都能打开选图页。</li>
-<li>选中地图后能返回来源 App。</li>
-<li>无地图时能先建图，再回到选图流程。</li>
-</ul>
-<h2 id="h-8-4.-p1-p2-子需求处理口径" class="selectable-block">4. P1 / P2 子需求处理口径</h2>
+<p class="selectable-block">返回口径：</p>
 <table class="selectable-block">
 <thead>
 <tr>
-<th>编号</th>
-<th>功能</th>
-<th>处理口径</th>
+<th>调用方</th>
+<th>返回内容</th>
+<th>调用方继续做什么</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>S05</td>
-<td>建图前选择栅格精度</td>
-<td>按 P2 评估；若建图服务要求建图前传入精度，则提升到 P1。</td>
+<td>自动回充功能</td>
+<td>选择结果、地图 ID、地图名称、文件状态、最近保存时间、点位数量、点位更新时间。</td>
+<td>继续设置回充点、回充参数和回充测试。</td>
 </tr>
 <tr>
-<td>S06</td>
-<td>保存并编辑</td>
-<td>按 P1 评估；不影响“保存后回列表”的最小闭环。</td>
-</tr>
-<tr>
-<td>S07</td>
-<td>保存失败保留并重试</td>
-<td>按 P1 评估；建议与保存能力一起实现，避免现场成果丢失。</td>
-</tr>
-<tr>
-<td>S08</td>
-<td>独立地图查看页</td>
-<td>按 P1 评估；若当前项目已有可复用查看页，优先复用。</td>
-</tr>
-<tr>
-<td>S09</td>
-<td>点位配置差异补齐</td>
-<td>按 P1 评估；复用项目已有点位列表、地图标记、拖拽、编辑、删除和保存能力，只补齐地图选点朝向、点位字段口径、点位页移动控制台和合法性校验。</td>
-</tr>
-<tr>
-<td>S10</td>
-<td>点位导航验证</td>
-<td>按 P1 评估；本期只做单点验证，不做多点路线、巡航或导航策略配置。</td>
+<td>导览 App</td>
+<td>选择结果、地图 ID、地图名称、文件状态、最近保存时间、点位数量、点位更新时间。</td>
+<td>继续配置导览点、讲解、路线和试跑。</td>
 </tr>
 </tbody>
 </table>
+<p class="selectable-block">点位数据对外口径：</p>
+<ul class="selectable-block">
+<li>点位列表若被业务 App 读取，位置和朝向以地图坐标系为准，包含 <code>x_m</code>、<code>y_m</code>、<code>theta_deg</code> 和所属地图 ID。</li>
+<li>页面中的百分比坐标仅用于用户理解点位在画布上的相对位置。</li>
+<li>来源 App 可继续基于点位配置回充、导览、路线或讲解业务内容。</li>
+</ul>
 
       </article>
     </main>
