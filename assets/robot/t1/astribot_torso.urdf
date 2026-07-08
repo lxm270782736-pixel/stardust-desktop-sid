@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot
+  name="astribot_torso">
+  <mujoco>
+    <compiler meshdir="./meshes/" balanceinertia="true" discardvisual="false" />
+  </mujoco>
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1" />
+  </material>
+  <link
+    name="astribot_torso_base">
+    <inertial>
+      <origin
+        xyz="-0.03463 -0.000203 0.004083"
+        rpy="0 0 0" />
+      <mass
+        value="24.4" />
+      <inertia
+        ixx="0.474798"
+        ixy="0.001145"
+        ixz="-0.026579"
+        iyy="0.681708"
+        iyz="-0.001446"
+        izz="1.09417" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_base_link.STL" />
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="astribot_torso_link_1">
+    <inertial>
+      <origin
+        xyz="-0.216604 -0.00532 -0.00079"
+        rpy="0 0 0" />
+      <mass
+        value="4.45" />
+      <inertia
+        ixx="0.016581"
+        ixy="0.006767"
+        ixz="0.000253"
+        iyy="0.306184"
+        iyz="-4e-06"
+        izz="0.304927" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_1.STL" />
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="astribot_torso_joint_1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.06"
+      rpy="-1.5708 1.5708 0" />
+    <parent
+      link="astribot_torso_base" />
+    <child
+      link="astribot_torso_link_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.5"
+      effort="200"
+      velocity="1.5" />
+  </joint>
+  <link
+    name="astribot_torso_link_2">
+    <inertial>
+      <origin
+        xyz="-0.249872 0.054647 -0.000212"
+        rpy="0 0 0" />
+      <mass
+        value="7.2" />
+      <inertia
+        ixx="0.058863"
+        ixy="-0.126067"
+        ixz="0.001862"
+        iyy="0.611362"
+        iyz="-0.000544"
+        izz="0.644818" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_2.STL" />
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="astribot_torso_joint_2"
+    type="revolute">
+    <origin
+      xyz="-0.355 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="astribot_torso_link_1" />
+    <child
+      link="astribot_torso_link_2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-2.35"
+      upper="0"
+      effort="200"
+      velocity="2" />
+  </joint>
+  <link
+    name="astribot_torso_link_3">
+    <inertial>
+      <origin
+        xyz="-0.031742 -0.000612 -0.000118"
+        rpy="0 0 0" />
+      <mass
+        value="0.665" />
+      <inertia
+        ixx="0.000737"
+        ixy="3e-06"
+        ixz="-4e-06"
+        iyy="0.001669"
+        iyz="-1e-06"
+        izz="0.001511" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_3.STL" />
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="astribot_torso_joint_3"
+    type="revolute">
+    <origin
+      xyz="-0.355 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="astribot_torso_link_2" />
+    <child
+      link="astribot_torso_link_3" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="2.4"
+      effort="200"
+      velocity="2" />
+  </joint>
+  <link
+    name="astribot_torso_link_4">
+    <inertial>
+      <origin
+        xyz="-0.057763 9.4e-05 0.231731"
+        rpy="0 0 0" />
+      <mass
+        value="6.25" />
+      <inertia
+        ixx="0.407924"
+        ixy="-0.000136"
+        ixz="-0.087631"
+        iyy="0.444974"
+        iyz="6.5e-05"
+        izz="0.062113" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_4.STL" />
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/t1_torso/astribot_torso_link_4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="astribot_torso_joint_4"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="1.5708 0 -1.5708" />
+    <parent
+      link="astribot_torso_link_3" />
+    <child
+      link="astribot_torso_link_4" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.58"
+      upper="1.58"
+      effort="200"
+      velocity="3" />
+  </joint>
+  <link
+    name="astribot_torso_end_effector">
+    <inertial>
+      <origin
+        xyz="0.029896622514523 0.352702235471318 -0.418359565716186"
+        rpy="0 0 0" />
+      <mass
+        value="0.0266400427905909" />
+      <inertia
+        ixx="5.9628635315791E-06"
+        ixy="-8.58837155692183E-09"
+        ixz="2.35098275515053E-08"
+        iyy="8.77707849523884E-06"
+        iyz="8.98908144258204E-07"
+        izz="1.09177258182265E-05" />
+    </inertial>
+  </link>
+  <joint
+    name="astribot_torso_end_effector_fixed_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0.3895"
+      rpy="0 0 0" />
+    <parent
+      link="astribot_torso_link_4" />
+    <child
+      link="astribot_torso_end_effector" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

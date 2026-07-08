@@ -1,14 +1,46 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/robot-icon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/stardust-desktop-sid/brand/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/stardust-desktop-sid/brand/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/stardust-desktop-sid/brand/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/stardust-desktop-sid/brand/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>机器人导航系统</title>
-    <script type="module" crossorigin src="/stardust-desktop-sid/assets/index-CWxcoHB0.js"></script>
-    <link rel="stylesheet" crossorigin href="/stardust-desktop-sid/assets/index-EJDkXA3M.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/harmonyos-sans-sc-webfont-splitted/dist/index.css" />
+    <title>星尘桌面</title>
+    <script>
+      // Apply saved theme before React mounts to avoid FOUC (flash of light theme on dark-preferring users)
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+        // Set tab title and document lang based on saved i18n locale before React mounts
+        // (matches the in-app language switcher). i18next stores the active language under
+        // 'i18nextLng'; default to 中文 when unset. indexOf('en') === 0 matches en / en-US /
+        // en-GB and is the inline-script-safe equivalent of String.prototype.startsWith.
+        var lng = localStorage.getItem('i18nextLng') || '';
+        var isEn = lng.indexOf('en') === 0;
+        document.title = isEn ? 'Astribot OS' : '星尘桌面';
+        document.documentElement.lang = isEn ? 'en' : 'zh';
+      } catch (e) { /* localStorage unavailable (incognito / disabled) — fall back to default */ }
+    </script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "/shared/react.js",
+          "react/jsx-runtime": "/shared/react-jsx-runtime.js",
+          "react-dom": "/shared/react-dom.js",
+          "@astribot/stores": "/shared/stores.js",
+          "@astribot/ui": "/shared/ui.js"
+        }
+      }
+    </script>
+    <script type="module" crossorigin src="/stardust-desktop-sid/assets/index-DX85BfLx.js"></script>
+    <link rel="stylesheet" crossorigin href="/stardust-desktop-sid/assets/index-BsnimTJF.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>

@@ -1,0 +1,33 @@
+/* Host-provided React — same instance as the main app */
+const R = window.__ASTRIBOT_SHARED__.React;
+export default R;
+export const {
+  Children,
+  Component,
+  Fragment,
+  Suspense,
+  cloneElement,
+  createContext,
+  createElement,
+  createRef,
+  forwardRef,
+  isValidElement,
+  lazy,
+  memo,
+  startTransition,
+  useCallback,
+  useContext,
+  useDebugValue,
+  useDeferredValue,
+  useEffect,
+  useId,
+  useInsertionEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  useTransition,
+} = R;
