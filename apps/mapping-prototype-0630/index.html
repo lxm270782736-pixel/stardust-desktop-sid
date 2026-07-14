@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
@@ -997,6 +997,56 @@
 
     .workspace.editor-layout.points-mode {
       grid-template-columns: minmax(0, 1fr) 300px;
+    }
+
+    body.manual-locate-mode #editorModeSwitch,
+    body.manual-locate-mode #basemapSection,
+    body.manual-locate-mode #pointAddEntry,
+    body.manual-locate-mode #moveConsoleSwitch,
+    body.manual-locate-mode #pointListWrap,
+    body.manual-locate-mode #saveEdit,
+    body.manual-locate-mode #backLibraryFromEditor,
+    body.manual-locate-mode #unsavedBadge,
+    body.manual-locate-mode #exitEditorTop {
+      display: none !important;
+    }
+
+    body.manual-locate-mode #manualLocateGuide {
+      display: grid !important;
+    }
+
+    body.manual-locate-mode .point-two-col {
+      display: block;
+    }
+
+    body.host-view-map-mode #backLibraryFromViewer,
+    body.host-view-map-mode #exitViewerTop,
+    body.host-view-map-mode #viewerEdit,
+    body.host-view-map-mode #viewerEditPoints,
+    body.host-view-map-mode #viewerDownload,
+    body.host-view-map-mode #detailEditPoints {
+      display: none !important;
+    }
+
+    .manual-locate-banner {
+      display: none;
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 8;
+      border: 1px solid rgba(148, 163, 184, .38);
+      border-radius: 8px;
+      background: rgba(15, 23, 42, .86);
+      color: #e5e7eb;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.5;
+      backdrop-filter: blur(8px);
+    }
+
+    body.manual-locate-mode .manual-locate-banner {
+      display: block;
     }
 
     .workspace.viewer-layout {
@@ -2340,6 +2390,9 @@
                   <span class="hud-pill"><span class="hud-dot"></span><span id="editorHudPose">位置 0.0m, 0.0m</span></span>
                   <span class="hud-pill" id="editorHudHeading">朝向 0°</span>
                 </div>
+                <div class="manual-locate-banner">
+                  <strong>手动重定位</strong>：点击可通行区域设置当前位置，按住并拖动设置朝向。确认位置与朝向后点击右侧“完成定位”。
+                </div>
                 <span class="editor-brush-preview" id="editorBrushPreview"></span>
 
                 <!-- 移动机器人浮动控制台（仅在编辑器·点位编排·设置点位子状态下，由开关控制可见） -->
@@ -2419,6 +2472,13 @@
                 <div class="point-two-col">
                   <!-- 新增入口 + 控制台开关 + 点位列表（点位编排即编辑模式，无子状态切换） -->
                   <div style="display:grid;gap:10px;">
+                    <div class="control-note" id="manualLocateGuide" style="display:none;">
+                      <strong>手动定位</strong>
+                      <span>1. 点击地图上的可通行区域，设置机器人当前位置。</span>
+                      <span>2. 按住并拖动，设置机器人朝向。</span>
+                      <span>3. 点击底部“完成定位”返回回充设置。</span>
+                    </div>
+
                     <!-- 1. 新增点位入口 -->
                     <div class="point-add-entry" id="pointAddEntry">
                       <div class="section-label">新增点位</div>
@@ -2469,7 +2529,7 @@
       </div>
       <div class="segmented" id="entryMode">
         <button class="active" data-entry="direct">直接打开</button>
-        <button data-entry="recharge">自动回充</button>
+        <button data-entry="recharge">回充设置</button>
         <button data-entry="guide">导览</button>
         <button data-entry="empty">无地图</button>
       </div>
@@ -2601,7 +2661,7 @@
     <div class="scrim" data-close-edit-save></div>
     <div class="modal-card">
       <h3>保存编辑</h3>
-      <p>保存后会覆盖当前地图文件，自动回充和导览等业务 App 后续会读取这份编辑后的地图。</p>
+      <p>保存后会覆盖当前地图文件，回充设置和导览等业务 App 后续会读取这份编辑后的地图。</p>
       <div class="actions" style="justify-content:flex-end;">
         <button class="btn" data-close-edit-save>取消</button>
         <button class="btn primary" id="confirmEditSave">确认保存</button>
@@ -2696,7 +2756,7 @@
         size: "31m x 22m",
         resolution: "0.05m",
         source: "",
-        usedBy: ["自动回充 App"],
+        usedBy: ["回充设置"],
       },
       {
         id: "map-warehouse-old",
@@ -2766,6 +2826,8 @@
       hostReturnTo === "guide";
     const hostManualLocateMode = hostMode === "manual-locate";
     const hostViewMapMode = hostParams.get("viewMap") === "1";
+    if (hostManualLocateMode) document.body.classList.add("manual-locate-mode");
+    if (hostViewMapMode) document.body.classList.add("host-view-map-mode");
     let entryMode = hostReturnTo === "guide" ? "guide" : (hostSelectMapMode || hostManualLocateMode) ? "recharge" : "direct";
     let captureSaveTarget = "library";
     let mockSaveFailOnce = false;
@@ -2795,6 +2857,7 @@
     let pendingPointPos = null;
     let editorMode = "basemap";
     let pointDragState = null; // { pointId, origX, origY, currentX, currentY, moved }
+    let manualPoseDragState = null; // { origTheta, moved }
     let pointCounter = 1;
     let isPlacingPoint = false;
 
@@ -2934,13 +2997,14 @@
     }
 
     function sourceLabel() {
-      if (entryMode === "recharge") return "自动回充 App";
+      if (entryMode === "recharge") return "回充设置";
       if (entryMode === "guide") return "导览 App";
       if (entryMode === "empty") return "来源 App";
       return "建图 App";
     }
 
     function returnLabel() {
+      if (hostManualLocateMode) return "完成定位";
       if (entryMode === "recharge") return "返回回充设置";
       if (entryMode === "guide") return "返回导览配置";
       if (entryMode === "empty") return "返回来源 App";
@@ -2990,8 +3054,8 @@
         },
         recharge: {
           title: "选择地图",
-          hint: "选择一张地图给自动回充 App 使用，也可以新建地图。",
-          entry: "自动回充 App 需要一张地图继续设置。",
+          hint: "选择一张地图给回充设置使用，也可以新建地图。",
+          entry: "回充设置需要一张地图继续设置。",
         },
         guide: {
           title: "选择地图",
@@ -3059,15 +3123,35 @@
       }
       selectedMap = map;
       entryHint.textContent = `${map.name} 已选择。`;
-      showToast(`${map.name} 已选择，${returnLabel()}`);
+      if (hostManualLocateMode) {
+        let activeMocks = [];
+        try {
+          activeMocks = JSON.parse(window.sessionStorage.getItem("astribotRechargeActiveMocks") || "[]");
+        } catch (error) {
+          activeMocks = [];
+        }
+        if (Array.isArray(activeMocks) && activeMocks.includes("manual-locate-failed")) {
+          showToast("手动定位失败：请重新校正位置和朝向后再完成定位");
+          const message = {
+            type: "astribot:mapping:manual-locate-failed",
+            payload: { id: map.id, name: map.name },
+          };
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(message, "*");
+          }
+          return;
+        }
+      }
+      showToast(hostManualLocateMode ? "手动定位完成，正在返回回充设置" : `${map.name} 已选择，${returnLabel()}`);
       if (hostSelectMapMode || hostManualLocateMode) {
         const message = {
-          type: "astribot:mapping:selected-map",
+          type: hostManualLocateMode ? "astribot:mapping:manual-located" : "astribot:mapping:selected-map",
           payload: {
             id: map.id,
             name: map.name,
             version: "v1",
             updatedAt: map.updated,
+            pose: hostManualLocateMode ? { x: editorPose.x, y: editorPose.y, theta: editorPose.theta } : undefined,
           },
         };
         if (window.parent && window.parent !== window) {
@@ -5395,6 +5479,20 @@
       };
     }
 
+    function updateEditorPoseFromCell(cell, message = "机器人位置已更新，长按机器人标记并拖动可设置朝向") {
+      if (!cell || !editorGrid) return false;
+      const value = editorGrid.data[editorIndex(cell.x, cell.y)];
+      if (value !== 0) {
+        showToast(`该位置是${cellBlockReason(value)}，请换一个可通行位置`);
+        return false;
+      }
+      editorPose.x = clamp((cell.x + .5) / editorGrid.width, 0, 1);
+      editorPose.y = clamp((cell.y + .5) / editorGrid.height, 0, 1);
+      drawEditorGrid();
+      showToast(message);
+      return true;
+    }
+
     function updateEditorBrushPreview(event) {
       if (editorMode === "points") {
         editorBrushPreview.style.display = "none";
@@ -6099,6 +6197,24 @@
             }
           }
         }
+        if (hostManualLocateMode && editorMode === "points" && event.button === 0 && !mapPickMode) {
+          const cell = editorCellFromEvent(event);
+          if (cell && editorGrid?.viewport) {
+            event.preventDefault();
+            const updated = updateEditorPoseFromCell(cell, "位置已设置，继续拖动可设置朝向");
+            if (updated) {
+              manualPoseDragState = {
+                origTheta: editorPose.theta,
+                moved: false,
+              };
+              editorMap.classList.add("is-dragging-point");
+              if (event.pointerId !== undefined && editorMap.setPointerCapture) {
+                try { editorMap.setPointerCapture(event.pointerId); } catch (e) {}
+              }
+            }
+          }
+          return;
+        }
         if (editorMode === "points" && event.button === 0 && !mapPickMode) {
           const cell = editorCellFromEvent(event);
           if (cell) {
@@ -6135,6 +6251,23 @@
         beginEditorStroke(event);
       });
       editorMap.addEventListener("pointermove", (event) => {
+        if (manualPoseDragState) {
+          event.preventDefault();
+          if (!editorGrid || !editorGrid.viewport) return;
+          const view = editorGrid.viewport;
+          const rect = editorMap.getBoundingClientRect();
+          const localX = event.clientX - rect.left;
+          const localY = event.clientY - rect.top;
+          const normX = clamp((localX - view.x) / view.w, 0, 1);
+          const normY = clamp((localY - view.y) / view.h, 0, 1);
+          const dx = normX - editorPose.x;
+          const dy = normY - editorPose.y;
+          if (Math.hypot(dx * view.w, dy * view.h) < 8) return;
+          manualPoseDragState.moved = true;
+          editorPose.theta = normalizeAngle(Math.atan2(dy, dx));
+          drawEditorGrid();
+          return;
+        }
         if (pointDragState) {
           event.preventDefault();
           if (!editorGrid || !editorGrid.viewport) return;
@@ -6153,6 +6286,16 @@
         continueEditorStroke(event);
       });
       editorMap.addEventListener("pointerup", (event) => {
+        if (manualPoseDragState) {
+          event.preventDefault();
+          editorMap.classList.remove("is-dragging-point");
+          if (manualPoseDragState.moved) {
+            showToast("机器人朝向已更新，点击完成定位返回");
+          }
+          manualPoseDragState = null;
+          drawEditorGrid();
+          return;
+        }
         if (pointDragState) {
           event.preventDefault();
           editorMap.classList.remove("is-dragging-point");
@@ -6184,6 +6327,13 @@
         endEditorStroke(event);
       });
       editorMap.addEventListener("pointercancel", (event) => {
+        if (manualPoseDragState) {
+          editorPose.theta = manualPoseDragState.origTheta;
+          manualPoseDragState = null;
+          editorMap.classList.remove("is-dragging-point");
+          drawEditorGrid();
+          return;
+        }
         if (pointDragState) {
           const { pointId, origX, origY } = pointDragState;
           const point = editorPoints.find((p) => p.id === pointId);
@@ -6197,6 +6347,7 @@
         endEditorStroke(event);
       });
       editorMap.addEventListener("lostpointercapture", (event) => {
+        if (manualPoseDragState) return;
         if (pointDragState) return;
         endEditorStroke(event);
       });
@@ -6206,6 +6357,7 @@
         hidePointPreview();
       });
       editorMap.addEventListener("pointermove", (event) => {
+        if (manualPoseDragState) return;
         if (pointDragState) return;
         if (mapPickMode === "new" && editorMode === "points") {
           const cell = editorCellFromEvent(event);
@@ -6437,10 +6589,18 @@
     bindEvents();
     if (hostManualLocateMode && maps[0]) {
       openEditor(maps[0], "points");
-      showToast("拖动点位或使用位置编辑完成手动定位");
+      const editorTitle = document.getElementById("editorTitle");
+      if (editorTitle) editorTitle.textContent = "手动定位";
+      const manualTitle = document.querySelector("#page-editor aside.panel h3");
+      if (manualTitle) manualTitle.textContent = "手动定位";
+      showToast("点击地图设置位置，按住并拖动设置朝向");
     } else if (hostViewMapMode && maps[0]) {
       openViewer(maps[0]);
+      const viewerTitle = document.getElementById("viewerTitle");
+      if (viewerTitle) viewerTitle.textContent = "查看地图";
     }
   </script>
 </body>
 </html>
+
+
