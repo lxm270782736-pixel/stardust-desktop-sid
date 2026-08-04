@@ -4,7 +4,7 @@ const { chromium } = require('playwright');
 
 const baseUrl =
   process.env.PROTOTYPE_URL ||
-  'http://127.0.0.1:4174/stardust-desktop-sid/';
+  'http://127.0.0.1:4174/stardust-desktop-sid/index.html';
 const outputDir = path.resolve(
   __dirname,
   '..',
@@ -17,6 +17,9 @@ const executablePath =
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
 fs.mkdirSync(outputDir, { recursive: true });
+fs.rmSync(path.join(outputDir, '03-stock-privacy-settings.png'), {
+  force: true,
+});
 
 function url(params) {
   return `${baseUrl}?${new URLSearchParams(params).toString()}`;
@@ -70,23 +73,35 @@ async function main() {
         {
           mock_desktop: '1',
           mock_clean: '1',
-          settings: 'privacy',
-          mock_robot_id: 'S1-PRD-STOCK-SETTINGS',
+          mock_robot_id: 'S1-PRD-STOCK-USER-MENU',
         },
-        'privacy-settings-panel'
+        'app-sidebar-user-menu-trigger'
       );
-      const panel = page.getByTestId('privacy-settings-panel');
-      const text = await panel.innerText();
-      if (!text.includes('隐私政策')) throw new Error('Stock policy entry missing');
-      if (
-        text.includes('麦克风（音频采集）') ||
-        text.includes('摄像头（图像采集）') ||
-        text.includes('第三方大模型服务')
-      ) {
-        throw new Error('Stock privacy page contains release-inappropriate controls');
-      }
-      await save(page, '03-stock-privacy-settings.png');
+      await page.getByTestId('app-sidebar-user-menu-trigger').hover();
+      await page
+        .getByTestId('app-sidebar-privacy-policy-button')
+        .waitFor({ state: 'visible' });
+      await save(page, '03-stock-user-privacy-entry.png');
+      await page.getByTestId('app-sidebar-privacy-policy-button').click();
+      await page
+        .getByTestId('privacy-policy-dialog')
+        .waitFor({ state: 'visible' });
       await context.close();
+
+      const stockSettings = await openPage(
+        browser,
+        {
+          mock_desktop: '1',
+          mock_clean: '1',
+          settings: 'privacy',
+          mock_robot_id: 'S1-PRD-STOCK-SETTINGS-CHECK',
+        },
+        'settings-page'
+      );
+      if (await stockSettings.page.getByTestId('settings-nav-privacy').count()) {
+        throw new Error('Stock settings still contains a privacy entry');
+      }
+      await stockSettings.context.close();
     }
 
     {
@@ -166,6 +181,9 @@ async function main() {
       }
       if (text.includes('摄像头（图像采集）')) {
         throw new Error('Voice privacy page still contains a camera switch');
+      }
+      if (text.includes('隐私政策')) {
+        throw new Error('Voice settings still contains a privacy policy entry');
       }
       await save(page, '06-voice-privacy-settings.png');
       await page.getByTestId('privacy-microphone-switch').click();
